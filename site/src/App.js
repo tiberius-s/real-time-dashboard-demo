@@ -5,8 +5,8 @@ import Header from './components/header/Header';
 import AlbumContainer from './components/album/AlbumContainer';
 
 
-const defaultServer = 'http://localhost:8080/';
-const socket = io.connect(process.env.API_HOST || defaultServer);
+const server = process.env.REACT_APP_API_HOST;
+const socket = io.connect(server || 'http://localhost:8080/');
 
 class App extends Component {
   constructor() {
