@@ -14,12 +14,14 @@ class AlbumContainer extends Component {
   }
 
   newAlbum = (res) => {
-    this.setState({
-      content: this.state.content.concat({
-        artist: res.artist,
-        album: res.album
-      })
-    });
+    if (res.artist && res.album) {
+      this.setState({
+        content: this.state.content.concat({
+          artist: res.artist,
+          album: res.album
+        })
+      });
+    }
   }
 
   render() {
