@@ -1,13 +1,12 @@
 {
-  "name": "websockets-poc-api",
+  "name": "real-time-dashboard-demo",
   "version": "1.0.0",
   "description": "a poc to test websocket implementation on metrics",
-  "author": "tiberius <tsilivestru@conversantmedia.com>",
+  "author": "tiberius <tiberius.silivestru@gmail.com>",
   "main": "server.js",
   "scripts": {
     "start": "node src/server.js",
-    "monDev": "nodemon --exec babel-node src/server.js",
-    "dev": "./node_modules/nodemon/bin/nodemon.js --legacy-watch ./src/server.js"
+    "dev": "nodemon --exec babel-node src/server.js"
   },
   "dependencies": {
     "express": "^4.14.1",
