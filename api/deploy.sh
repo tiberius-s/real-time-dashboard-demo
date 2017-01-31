@@ -1,11 +1,9 @@
 #! /bin/bash
 
-docker kill socket-api && \
-docker rm socket-api && \
-docker rmi socket-api && \
-docker build -t socket-api . && \
-docker run --name socket-api \
-  -p 11111:8080 \
-  -v ~/Development/projects/websocket-poc/api:/usr/src/app \
-  -e "NODE_ENV=dev" \
-  -d socket-api run dev
+sudo docker kill demo-socket-api && \
+sudo docker rm demo-socket-api && \
+sudo docker rmi demo-socket-api && \
+sudo docker build -t demo-socket-api . && \
+sudo docker run --name demo-socket-api \
+  -p 10001:8080 \
+  -d demo-socket-api
