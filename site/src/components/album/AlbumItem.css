@@ -1,0 +1,45 @@
+.album {
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 20%;
+  transition: all ease-in .5s;
+}
+
+.album > img {
+  height: auto;
+  width: 100%;
+  margin: 0.05rem;
+}
+
+.album:hover {
+  box-shadow: 0.3rem 0.3rem 0.8rem 0.05rem black;
+  transform: scale(1.02);
+  background-color: white;
+  align-items: center;
+}
+
+.album:hover .artist{
+  display: flex;
+  visibility: visible;
+  opacity: 1;
+  flex-direction: column;
+  justify-content: center;
+  flex: 0 1 15%;
+  font-weight: bold;
+  font-size: 2rem;
+}
+
+.album:hover > img {
+  height: auto;
+  padding-top: 1rem;
+  width: 85%;
+  display: flex;
+  margin: 0.05rem;
+  flex: 1 0 80%;
+}
+
+.artist {
+  visibility: hidden;
+  opacity: 0;
+}
