@@ -1,7 +1,7 @@
 {
   "name": "real-time-dashboard-demo",
   "version": "1.0.0",
-  "description": "a poc to test websocket implementation on metrics",
+  "description": "a poc for websocket implementation",
   "author": "tiberius <tiberius.silivestru@gmail.com>",
   "main": "server.js",
   "scripts": {
