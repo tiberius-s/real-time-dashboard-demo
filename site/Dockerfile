@@ -12,4 +12,4 @@ EXPOSE 3000
 
 ENTRYPOINT ["npm"]
 
-CMD ["run serve"]
+CMD ["run", "serve"]

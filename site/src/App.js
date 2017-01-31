@@ -4,7 +4,9 @@ import io from 'socket.io-client';
 import Header from './components/header/Header';
 import AlbumContainer from './components/album/AlbumContainer';
 
-const socket = io.connect('http://localhost:8080/');
+
+const defaultServer = 'http://localhost:8080/';
+const socket = io.connect(process.env.API_HOST || defaultServer);
 
 class App extends Component {
   constructor() {
