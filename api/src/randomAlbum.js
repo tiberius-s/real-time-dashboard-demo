@@ -25,7 +25,7 @@ function getRandomAlbum() {
   let artist = artists[random];
   return getAllAlbums(artist).then(data => {
     let imgSrc = getRandomAlbumArt(data);
-    if (imgSrc !== undefined) {
+    if (imgSrc !== undefined && artist !== undefined) {
       return { artist: artist, album: imgSrc };
     }
   });

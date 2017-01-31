@@ -25,8 +25,8 @@ server.listen(PORT, () => {
 io.on('connection', function (socket) {
   setInterval(() => {
     album.getRandomAlbum().then(data => {
-      socket.emit('new-album', { album: data })
-      console.log({ album: data });
+      socket.emit('new-album', { album: data });
+      console.info({ album: data });
     });
   }, 3000);
 });
