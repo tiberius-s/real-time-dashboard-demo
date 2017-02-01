@@ -29,12 +29,11 @@ Additionally, I added an event emmitter on an endpoint, in this case the server 
 * [Spotify API](https://developer.spotify.com/web-api/)
 * [Visual Studio Code](code.visualstudio.com)
 * git
-* [Docker](http://docker.io/) (soon)
+* [Docker](http://docker.io/)
 
 ---
 ## TODO
 
-* Dockerize this demo into a multi-container app
 * Expand readme to explain the steps taken
 * Both, front end and back end folders will need their own readme to explain the method to the madness
 * convert back end to ES6

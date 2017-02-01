@@ -1,6 +1,5 @@
 .git
 .DS_Store
-.env
 npm-debug.log
 site/deploy.sh
 api/deploy.sh
