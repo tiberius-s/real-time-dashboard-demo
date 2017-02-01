@@ -1,0 +1,13 @@
+version: '2'
+
+services:
+  site:
+    build: ./site
+    ports:
+      - "10002:3000"
+    environment:
+      - REACT_APP_API_HOST=localhost:10001
+  api:
+    build: ./api
+    ports:
+      - "10001:8080"

@@ -1,0 +1,21 @@
+version: '2'
+
+# this config mounts the volumes to their respective volumes in the containers. Additionally, each of these will live-reload
+
+services:
+  site:
+    build: ./site
+    command: start
+    ports:
+      - "10002:3000"
+    volumes:
+      - ./site:/usr/src/app
+    environment:
+      - REACT_APP_API_HOST=localhost:10001
+  api:
+    build: ./api
+    command: run dev
+    ports:
+      - "10001:8080"
+    volumes:
+      - ./api:/usr/src/app

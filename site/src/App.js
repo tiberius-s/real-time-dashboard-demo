@@ -6,7 +6,7 @@ import AlbumContainer from './components/album/AlbumContainer';
 
 
 const server = process.env.REACT_APP_API_HOST;
-const socket = io.connect(server || 'http://localhost:8080/');
+const socket = io.connect(server || 'localhost:8080');
 
 class App extends Component {
   constructor() {

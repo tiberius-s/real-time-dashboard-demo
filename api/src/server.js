@@ -12,8 +12,10 @@ const PORT = 8080;
 app.use(socket);
 app.use(headers);
 
-app.get('/', (req, res) => {
+app.get('/', (req, res, next) => {
   req.io.emit('greeting', { message: 'Hello, Audience!' });
+  res.json({ message: "You touched the api root directory" })
+  if (err) next(err);
 })
 
 // Server
@@ -26,7 +28,6 @@ io.on('connection', function (socket) {
   setInterval(() => {
     album.getRandomAlbum().then(data => {
       socket.emit('new-album', { album: data });
-      console.info({ album: data });
     });
   }, 3000);
 });

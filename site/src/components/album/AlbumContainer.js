@@ -14,10 +14,9 @@ class AlbumContainer extends Component {
   }
 
   newAlbum = (res) => {
-    if (res.artist && res.album) {
+    if (res.album.artist && res.album.album) {
       this.setState({
         content: this.state.content.concat({
-          artist: res.artist,
           album: res.album
         })
       });
