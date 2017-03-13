@@ -12,4 +12,5 @@ services:
     ports:
       - "10001:8080"
 
-#I KNOW it's terrible practice to include the .env file, but I don't want to fight the create-react-app scripts at this time to figure this out.
+# I KNOW it's terrible practice to include the .env file, but I don't want to fight the
+# create-react-app scripts at this time to figure this out.

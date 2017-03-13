@@ -22,4 +22,5 @@ services:
       - ./api:/usr/src/app
 
 
-# Yes, I KNOW it's terrible practice to include the .env file, but I don't want to fight the create-react-app scripts at this time to figure this out.
+# Yes, I KNOW it's terrible practice to include the .env file, but I don't want to
+# fight the create-react-app scripts at this time to figure this out.
