@@ -13,15 +13,14 @@ Additionally, I added an event emmitter on an endpoint, in this case the server 
 ## Stack
 
 * Front end
-  * React
-  * Socket.IO
+  * [React](https://facebook.github.io/react)
+  * [Socket.IO](https://socket.io)
 
 * Back end
-  * Babel
-  * Node
-  * Express
-  * Socket.IO
-  * Babel
+  * [Babel](https://babeljs.io)
+  * [Node](https://nodejs.org)
+  * [Express](https://expressjs.com)
+  * [Socket.IO](https://socket.io)
 
 ---
 ## Tools used to put this together
@@ -30,7 +29,6 @@ Additionally, I added an event emmitter on an endpoint, in this case the server 
 * [Spotify API](https://developer.spotify.com/web-api/)
 * [Visual Studio Code](https://code.visualstudio.com)
 * [Docker](https://docker.io/)
-* [Babel](https://babeljs.io/)
 * [git](https://git-scm.com/)
 
 ---
