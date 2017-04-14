@@ -17,6 +17,7 @@ Additionally, I added an event emmitter on an endpoint, in this case the server 
   * Socket.IO
 
 * Back end
+  * Babel
   * Node
   * Express
   * Socket.IO
@@ -27,9 +28,10 @@ Additionally, I added an event emmitter on an endpoint, in this case the server 
 
 * [create-react-app](https://github.com/facebookincubator/create-react-app)
 * [Spotify API](https://developer.spotify.com/web-api/)
-* [Visual Studio Code](code.visualstudio.com)
-* git
-* [Docker](http://docker.io/)
+* [Visual Studio Code](https://code.visualstudio.com)
+* [Docker](https://docker.io/)
+* [Babel](https://babeljs.io/)
+* [git](https://git-scm.com/)
 
 ---
 ## TODO
