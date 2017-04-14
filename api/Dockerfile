@@ -6,7 +6,7 @@ WORKDIR /usr/src/app
 # Bundle app source
 COPY . /usr/src/app
 
-RUN npm install --silent
+RUN npm install --silent && npm run build
 
 EXPOSE 8080
 
