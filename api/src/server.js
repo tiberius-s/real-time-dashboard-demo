@@ -23,7 +23,7 @@ app.get('/', (req, res, next) => {
 })
 
 // Server
-server.listen(PORT, () => console.log('Running on http://localhost:' + PORT));
+server.listen(PORT, () => console.log(`Running on http://localhost:${PORT}`));
 
 // Socket Connection
 io.on('connection', function (socket) {
