@@ -1,5 +1,5 @@
-const artists = require('./data/artists.json');
-const https = require('https');
+import artists from './data/artists.json';
+import https from 'https';
 
 // Basic Http Get Call wrapper
 function httpGet(url) {
