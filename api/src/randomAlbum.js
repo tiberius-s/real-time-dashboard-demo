@@ -55,7 +55,7 @@ function pickRandomAlbum(result) {
     let randomAlbum = Math.floor((Math.random() * result.length));
     let imgSrc = result[randomAlbum].images[1].url;
     let artist = result[randomAlbum].artists[0].name;
-    return { artist: artist, album: imgSrc };;
+    return { artist: artist, album: imgSrc };
   }
   return false;
 }
