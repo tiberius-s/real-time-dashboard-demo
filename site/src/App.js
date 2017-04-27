@@ -17,11 +17,8 @@ class App extends Component {
     socket.on('greeting', this.greeting);
   }
 
-  greeting = (data) => {
-    this.setState({
-      greeting: data
-    });
-  }
+  greeting = data => this.setState({ greeting: data });
+
 
   render() {
     return (
