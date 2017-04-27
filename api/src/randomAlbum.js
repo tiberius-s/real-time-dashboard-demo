@@ -19,31 +19,48 @@ function httpGet(url) {
   })
 }
 
-// Functions to handle the API calls
-function getRandomAlbum() {
+//  Filters
+const artistFilter = name => {
+  return artist => {
+    if (artist.name === name) {
+      return artist;
+    }
+  }
+}
+
+const albumFilter = artistId => {
+  return album => {
+    if (album.available_markets.indexOf('US') > -1 && album.artists[0].id === artistId) {
+      delete album.available_markets;
+      return album;
+    }
+  }
+}
+
+function getArtist() {
   let random = Math.floor((Math.random() * artists.length + 1));
   let artist = artists[random];
-  return getAllAlbums(artist).then(data => {
-    let imgSrc = getRandomAlbumArt(data);
-    if (imgSrc !== undefined && artist !== undefined) {
-      return { artist: artist, album: imgSrc };
-    }
-  });
-}
-
-function getAllAlbums(artist) {
   let encodedArtist = encodeURIComponent(artist);
-  let url = `https://api.spotify.com/v1/search?q=${encodedArtist}&type=album`;
-  return httpGet(url);
+  let url = `https://api.spotify.com/v1/search?q=artist:${encodedArtist}&type=artist`
+  return httpGet(url).then(res => res.artists.items.filter(artistFilter(artist)).map(artist => artist.id).pop());
 }
 
-function getRandomAlbumArt(result) {
-  if (result.albums.items.length > 0) {
-    let randomImg = Math.floor((Math.random() * result.albums.items.length));
-    return result.albums.items[randomImg].images[1].url;
+function getAlbums(artistId) {
+  let url = `https://api.spotify.com/v1/artists/${artistId}/albums`
+  return httpGet(url).then(res => res.items.filter(albumFilter(artistId)));
+}
+
+function pickRandomAlbum(result) {
+  if (result.length > 0) {
+    let randomAlbum = Math.floor((Math.random() * result.length));
+    let imgSrc = result[randomAlbum].images[1].url;
+    let artist = result[randomAlbum].artists[0].name;
+    return { artist: artist, album: imgSrc };;
   }
   return false;
 }
+
+const getRandomAlbum = () => getArtist().then(getAlbums).then(pickRandomAlbum);
 
 // Export the album fetcher
 module.exports = {
