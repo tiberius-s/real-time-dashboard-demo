@@ -18,20 +18,16 @@ function get(url) {
 }
 
 //  Filters
-const artistFilter = name => {
-  return artist => {
-    if (artist.name === name) {
-      return artist;
-    }
+const artistFilter = name => artist => {
+  if (artist.name === name) {
+    return artist;
   }
 }
 
-const albumFilter = artistId => {
-  return album => {
-    if (album.available_markets.indexOf('US') > -1 && album.artists[0].id === artistId) {
-      delete album.available_markets;
-      return album;
-    }
+const albumFilter = artistId => album => {
+  if (album.available_markets.indexOf('US') > -1 && album.artists[0].id === artistId) {
+    delete album.available_markets;
+    return album;
   }
 }
 
