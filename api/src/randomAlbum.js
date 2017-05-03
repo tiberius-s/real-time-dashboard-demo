@@ -2,20 +2,18 @@ import artists from './data/artists.json';
 import https from 'https';
 
 // Basic Http Get Call wrapper
-function httpGet(url) {
+function get(url) {
   return new Promise((resolve, reject) => {
-    https.get(url, (res) => {
+    https.get(url, res => {
       if (res.statusCode !== 200) {
         return new Error('response status code not 200');
       }
+      let data = '';
       res.setEncoding('utf8');
-      let rawData = '';
-      res.on('data', (chunk) => rawData += chunk);
-      res.on('end', () => {
-        let data = JSON.parse(rawData);
-        resolve(data);
-      })
-    }).on('error', (err) => { reject(err) });
+      res.on('data', chunk => data += chunk);
+      res.on('end', () => { resolve(JSON.parse(data)) })
+    })
+      .on('error', err => { reject(err) });
   })
 }
 
@@ -42,12 +40,12 @@ function getArtist() {
   let artist = artists[random];
   let encodedArtist = encodeURIComponent(artist);
   let url = `https://api.spotify.com/v1/search?q=artist:${encodedArtist}&type=artist`
-  return httpGet(url).then(res => res.artists.items.filter(artistFilter(artist)).map(artist => artist.id).pop());
+  return get(url).then(res => res.artists.items.filter(artistFilter(artist)).map(artist => artist.id).pop());
 }
 
 function getAlbums(artistId) {
   let url = `https://api.spotify.com/v1/artists/${artistId}/albums`
-  return httpGet(url).then(res => res.items.filter(albumFilter(artistId)));
+  return get(url).then(res => res.items.filter(albumFilter(artistId)));
 }
 
 function pickRandomAlbum(result) {
