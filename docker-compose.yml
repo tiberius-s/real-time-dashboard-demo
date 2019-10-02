@@ -1,16 +1,14 @@
-version: '2'
+version: '3.3'
 
 services:
   site:
     build: ./site
-    ports:
-      - "10002:3000"
+    ports: ["10002:3000"]
     environment:
      env_file: ./site/.env
   api:
     build: ./api
-    ports:
-      - "10001:8080"
+    ports: ["10001:8080"]
 
 # I KNOW it's terrible practice to include the .env file, but I don't want to fight the
 # create-react-app scripts at this time to figure this out.

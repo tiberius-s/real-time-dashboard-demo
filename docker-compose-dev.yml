@@ -1,4 +1,4 @@
-version: '2'
+version: '3.3'
 
 # this config mounts the volumes to their respective volumes in the containers. Additionally, each of these will live-reload
 # NOTE: in order for this config to run, make sure that you run npm install in both, site and api directories
@@ -7,8 +7,7 @@ services:
   site:
     build: ./site
     command: start
-    ports:
-      - "10002:3000"
+    ports: ['10002:3000']
     volumes:
       - ./site:/usr/src/app
     environment:
@@ -16,11 +15,9 @@ services:
   api:
     build: ./api
     command: run dev
-    ports:
-      - "10001:8080"
+    ports: ['10001:8080']
     volumes:
       - ./api:/usr/src/app
-
 
 # Yes, I KNOW it's terrible practice to include the .env file, but I don't want to
 # fight the create-react-app scripts at this time to figure this out.

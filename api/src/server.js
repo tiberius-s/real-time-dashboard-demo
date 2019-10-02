@@ -1,34 +1,29 @@
-import express from 'express';
-import http from 'http';
-import socketio from 'socket.io';
-import socketMW from './middleware/socket';
-import headers from './middleware/headers';
-import album from './randomAlbum';
+const app = require('express')();
+const server = require('http').Server(app);
+const io = require('socket.io').listen(server);
 
-// Initialize
-const app = express();
-const server = http.Server(app);
-const io = socketio.listen(server);
-const socket = socketMW(io);
-
+const socket = require('./middleware/socket')(io);
+const headers = require('./middleware/headers');
+const album = require('./randomAlbum');
 const PORT = 8080;
 
-app.use(socket);
-app.use(headers);
-
-app.get('/', (req, res, next) => {
-  if (err) next(err);
-  req.io.emit('greeting', { message: 'Hello, Audience!' });
-  res.json({ message: "You touched the api root directory" })
-})
-
 // Server
-server.listen(PORT, () => console.log(`Running on http://localhost:${PORT}`));
+server.listen(PORT, () => console.log('Server listening'));
+
+app.use(headers);
+app.use(socket);
+
+app.get('/', (req, res) => {
+  req.io.emit('greeting', { message: 'Hello, Audience!' });
+  res.json({ message: 'You touched the api root directory' });
+});
 
 // Socket Connection
-io.on('connection', function (socket) {
+io.on('connection', function(socket) {
   setInterval(() => {
+    console.log('fetching new album');
     album.getRandomAlbum().then(data => {
+      console.log({ album: data });
       socket.emit('new-album', { album: data });
     });
   }, 3000);

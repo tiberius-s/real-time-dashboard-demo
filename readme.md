@@ -1,5 +1,7 @@
 # Real-time Dashboard Demo
 
+## **NOTE: The Spotify API has changed since this was published. API calls to fetch artists and albums need refactoring**
+
 ## Why? How?
 
 I was asked to present a technical demo for my co-workers. Given that I'd been playing with Socket.IO recently, I figured it would be a good idea to demonstrate how it's possible to make a real-time dashboard that updates on events.

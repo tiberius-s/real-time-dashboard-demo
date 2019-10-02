@@ -19,7 +19,6 @@ class App extends Component {
 
   greeting = data => this.setState({ greeting: data });
 
-
   render() {
     return (
       <div className="App">
