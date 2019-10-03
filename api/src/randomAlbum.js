@@ -1,70 +1,125 @@
+const fs = require('fs');
+const axios = require('axios');
+const qs = require('querystring');
 const artists = require('./data/artists.json');
-const https = require('https');
 
-// Basic Http Get Call wrapper
-function get(url) {
-  return new Promise((resolve, reject) => {
-    https
-      .get(url, res => {
-        if (res.statusCode !== 200) {
-          reject(Error('Response status code is not 200'));
-        }
-        let data = '';
-        res.setEncoding('utf8');
-        res.on('data', chunk => (data += chunk));
-        res.on('end', () => resolve(JSON.parse(data)));
-      })
-      .on('error', err => reject(err));
-  });
-}
+const SPOTIFY_TOKEN_ENDPOINT = 'https://accounts.spotify.com/api/token/';
+const SPOTIFY_API_BASE = 'https://api.spotify.com/v1/';
 
 //  Filters
 const artistFilter = name => artist => {
-  if (artist.name === name) {
+  if (artist.name.toLowerCase().trim() === name.toLowerCase().trim()) {
     return artist;
   }
 };
 
 const albumFilter = artistId => album => {
-  if (album.available_markets.indexOf('US') > -1 && album.artists[0].id === artistId) {
-    delete album.available_markets;
+  if (album.artists[0].id === artistId) {
     return album;
   }
 };
 
-function getArtist() {
-  let random = Math.floor(Math.random() * artists.length + 1);
-  let artist = artists[random];
-  let encodedArtist = encodeURIComponent(artist);
-  let url = `https://api.spotify.com/v1/search?q=artist:${encodedArtist}&type=artist`;
-  return get(url)
-    .then(res => res.artists.items.filter(artistFilter(artist)).map(artist => artist.id))
-    .catch(console.error);
+// Functions
+const unixCurrentTime = () => Math.floor(new Date().getTime() / 1000);
+
+const encodeBasicAuth = (id, pw) => Buffer.from(`${id}:${pw}`).toString('base64');
+
+function getCredentials() {
+  const authString = encodeBasicAuth(process.env.CLIENT_ID, process.env.CLIENT_SECRET);
+  const config = {
+    method: 'POST',
+    url: SPOTIFY_TOKEN_ENDPOINT,
+    data: qs.stringify({ grant_type: 'client_credentials' }),
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      Authorization: `Basic ${authString}`
+    }
+  };
+  return axios(config).then(res => res.data);
 }
 
-function getAlbums(artistId) {
-  let url = `https://api.spotify.com/v1/artists/${artistId}/albums`;
-  return get(url)
-    .then(res => res.items.filter(albumFilter(artistId)))
-    .catch(console.error);
+function saveCredentials(data) {
+  const processResponse = data => Object.assign(data, { saveTime: unixCurrentTime() });
+  return new Promise((resolve, reject) => {
+    fs.writeFile('credentials.json', JSON.stringify(processResponse(data), null, 2), err => {
+      if (err) reject(err);
+      console.log('Saved new credentials!');
+      resolve();
+    });
+  });
 }
 
-function pickRandomAlbum(result) {
-  if (result.length > 0) {
-    let randomAlbum = Math.floor(Math.random() * result.length);
-    let imgSrc = result[randomAlbum].images[1].url;
-    let artist = result[randomAlbum].artists[0].name;
+function getToken() {
+  let creds;
+  try {
+    creds = JSON.parse(fs.readFileSync('./credentials.json'));
+  } catch (e) {
+    creds = false;
+  }
+  if (!creds || unixCurrentTime() >= creds.saveTime + creds.expires_in) {
+    return getCredentials()
+      .then(saveCredentials)
+      .then(() => getToken())
+      .catch(printError);
+  }
+  return creds.access_token;
+}
+
+async function getRandomArtist() {
+  const random = Math.floor(Math.random() * artists.length + 1);
+  const artist = artists[random];
+  const config = {
+    method: 'GET',
+    url: `${SPOTIFY_API_BASE}search?q=${encodeURIComponent(artist)}&type=artist&market=us`,
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${await getToken()}`
+    }
+  };
+
+  return axios(config)
+    .then(res => res.data.artists.items.filter(artistFilter(artist)).map(artist => artist.id)[0])
+    .catch(printError);
+}
+
+async function getAlbums(artistId) {
+  const config = {
+    method: 'GET',
+    url: `${SPOTIFY_API_BASE}artists/${artistId}/albums?market=us`,
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${await getToken()}`
+    }
+  };
+  return axios(config)
+    .then(res => res.data.items.filter(albumFilter(artistId)))
+    .catch(printError);
+}
+
+function pickRandomAlbum(albums) {
+  if (albums.length > 0) {
+    let random = Math.floor(Math.random() * albums.length);
+    let imgSrc = albums[random].images[1].url;
+    let artist = albums[random].artists[0].name;
     return { artist: artist, album: imgSrc };
   }
   return false;
 }
 
-const getRandomAlbum = () =>
-  getArtist()
+function getRandomAlbum() {
+  return getRandomArtist()
     .then(getAlbums)
-    .then(pickRandomAlbum);
+    .then(pickRandomAlbum)
+    .catch(printError);
+}
 
-// Export the album fetcher
+function printError(err) {
+  console.log('Error:', err);
+}
+
+// Export the album fetcher˜
 module.exports = {
   getRandomAlbum: getRandomAlbum
-}
+};

@@ -1,7 +1,5 @@
 # Real-time Dashboard Demo
 
-## **NOTE: The Spotify API has changed since this was published. API calls to fetch artists and albums need refactoring**
-
 ## Why? How?
 
 I was asked to present a technical demo for my co-workers. Given that I'd been playing with Socket.IO recently, I figured it would be a good idea to demonstrate how it's possible to make a real-time dashboard that updates on events.
@@ -12,31 +10,47 @@ In `server.js`, `getRandomAlbum` is called ever 3 seconds and emits the data as 
 
 Additionally, I added an event emmitter on an endpoint, in this case the server root "/". This event is not triggered by the site accessing the socket instance on the server at the same address, instead only when that route is hit. This is to show how to implement a socket event when hitting a certain route. One important detail is to ensure that you attach the socket.io instance to the app, I did this with a middleware function.
 
+## Instructions
+
+### This used to work straight out of the box. However, Spotify now requires a token to interact with the APi.
+
+1. Go to [https://developer.spotify.com/dashboard/](https://developer.spotify.com/dashboard/) and create a client.
+2. In the `api` folder, add a `.env` file and make sure the CLIENT_ID and CLIENT_SECRET are in place.
+   - Example entry: `CLIENT_ID="YOUR CLIENT ID"`
+3. From the root directory, run `docker-compose up -d`.
+4. Open the browser to [http://localhost:10002](http://localhost:10002) to see the site. The Api runs on [http://localhost:10001](http://localhost:10001)
+5. To stop the containers, run `docker-compose down`
+
+Additionally, there is an option to run these apps in dev mode, which will autoreload front or back end as modified. For this to work, you will need to run `npm install` in both `api` and `site` directories. Once that's done, change directory to project root and enter `docker-compose -f docker-compose-dev.yml up`.
+
 ## Stack
 
-* Front end
-  * [React](https://facebook.github.io/react)
-  * [Socket.IO](https://socket.io)
+- Front end
 
-* Back end
-  * [Babel](https://babeljs.io)
-  * [Node](https://nodejs.org)
-  * [Express](https://expressjs.com)
-  * [Socket.IO](https://socket.io)
+  - [React](https://facebook.github.io/react)
+  - [Socket.IO](https://socket.io)
+
+- Back end
+  - [Babel](https://babeljs.io)
+  - [Node](https://nodejs.org)
+  - [Express](https://expressjs.com)
+  - [Socket.IO](https://socket.io)
 
 ---
+
 ## Tools used to put this together
 
-* [create-react-app](https://github.com/facebookincubator/create-react-app)
-* [Spotify API](https://developer.spotify.com/web-api/)
-* [Visual Studio Code](https://code.visualstudio.com)
-* [Docker](https://docker.io/)
-* [git](https://git-scm.com/)
+- [create-react-app](https://github.com/facebookincubator/create-react-app)
+- [Spotify API](https://developer.spotify.com/web-api/)
+- [Visual Studio Code](https://code.visualstudio.com)
+- [Docker](https://docker.io/)
+- [git](https://git-scm.com/)
 
 ---
+
 ## TODO
 
-* Expand readme to explain the steps taken
-* Both, front end and back end folders will need their own readme to explain the method to the madness
-* convert back end to ES6
-* filter out that karaoke album nonsense
+- Expand readme to explain the steps taken
+- Both, front end and back end folders will need their own readme to explain the method to the madness
+- convert back end to ES6
+- filter out that karaoke album nonsense

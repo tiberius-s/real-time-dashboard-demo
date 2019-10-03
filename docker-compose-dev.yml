@@ -10,14 +10,9 @@ services:
     ports: ['10002:3000']
     volumes:
       - ./site:/usr/src/app
-    environment:
-      env_file: ./site/.env
   api:
     build: ./api
     command: run dev
     ports: ['10001:8080']
     volumes:
       - ./api:/usr/src/app
-
-# Yes, I KNOW it's terrible practice to include the .env file, but I don't want to
-# fight the create-react-app scripts at this time to figure this out.

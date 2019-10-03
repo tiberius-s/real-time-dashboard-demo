@@ -1,5 +1,7 @@
 FROM node:12.10-alpine
 
+ENV REACT_APP_API_HOST=localhost:10001
+
 # Create app directory
 WORKDIR /usr/src/app
 

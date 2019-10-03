@@ -1,3 +1,4 @@
+require('dotenv').config();
 const app = require('express')();
 const server = require('http').Server(app);
 const io = require('socket.io').listen(server);
@@ -8,7 +9,7 @@ const album = require('./randomAlbum');
 const PORT = 8080;
 
 // Server
-server.listen(PORT, () => console.log('Server listening'));
+server.listen(PORT, () => console.log('API server is running and mapped to http://localhost:10001'));
 
 app.use(headers);
 app.use(socket);
@@ -21,10 +22,6 @@ app.get('/', (req, res) => {
 // Socket Connection
 io.on('connection', function(socket) {
   setInterval(() => {
-    console.log('fetching new album');
-    album.getRandomAlbum().then(data => {
-      console.log({ album: data });
-      socket.emit('new-album', { album: data });
-    });
+    album.getRandomAlbum().then(data => socket.emit('new-album', { album: data }));
   }, 3000);
 });

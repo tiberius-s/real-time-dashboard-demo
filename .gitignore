@@ -1,5 +1,15 @@
 .git
+.gitignore
 .DS_Store
+dist
+test.json
+.eslintrc.json
+.vscode
+.env
+package-lock.json
 npm-debug.log
-site/deploy.sh
-api/deploy.sh
+**/.env
+**/node_modules
+credentials.json
+coverage
+build
